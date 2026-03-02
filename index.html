@@ -2024,14 +2024,10 @@ window.addEventListener('load', async function () {
       // }
       
       const requestBody = {
-        messages: conversationHistory,
-        includeReferences: document.getElementById('include-references')?.checked === true
-      };
-
-      const botId = currentBotId || getBotId();
-      if (botId) {
-        requestBody.botId = botId;
-      }
+          messages: conversationHistory,
+          includeReferences: document.getElementById('include-references')?.checked === true,
+          botId: 'ESL2ProjectMode'  // <-- HARDCODE your bot ID here
+        };
 
       const memberData = await getMemberstackUserId();
         if (memberData) {
