@@ -1812,36 +1812,45 @@ function getBotId() {
         return null;
       }
     }
-  let configLoaded = false;
+    let configLoaded = false;
 
-  async function loadBotConfig(botId) {
-    if (configLoaded) return;
-    configLoaded = true;
+      async function loadBotConfig(botId) {
+        // Do NOT lock if botId is missing
+        if (!botId) {
+          console.log('No bot ID - waiting for bot ID...');
+          return;
+        }
 
-    if (!botId) {
-      console.log('No bot ID - using default configuration');
-      return;
-    }
+        // Prevent duplicate loads
+        if (configLoaded) return;
+        configLoaded = true;
 
-  try {
-    console.log('Loading bot config for:', botId);
-    const response = await fetch(`https://admin-panel-text-backend.onrender.com/config/${encodeURIComponent(botId)}`);
-    
-    if (response.ok) {
-      botConfig = await response.json();
-      console.log('Loaded bot config:', botConfig);
-      
-      if (botConfig.greeting) {
-        responseDiv.innerHTML = botConfig.greeting;
+        try {
+          console.log('Loading bot config for:', botId);
+
+          const response = await fetch(
+            `https://admin-panel-text-backend.onrender.com/config/${encodeURIComponent(botId)}`
+          );
+
+          if (response.ok) {
+            botConfig = await response.json();
+            console.log('Loaded bot config:', botConfig);
+
+            if (botConfig.greeting) {
+              responseDiv.innerHTML = botConfig.greeting;
+            }
+
+            // Apply config to system message
+            updateSystemMessage();
+          } else {
+            console.log('Bot config not found, using defaults');
+          }
+
+        } catch (error) {
+          console.error('Error loading bot config:', error);
+          console.log('Using default configuration');
+        }
       }
-    } else {
-      console.log('Bot config not found, using defaults');
-    }
-  } catch (error) {
-    console.error('Error loading bot config:', error);
-    console.log('Using default configuration');
-  }
-}
 
 function updateSystemMessage() {
   let systemContent = '';
