@@ -796,6 +796,12 @@
     font-size: 16px;
   }
 }
+
+@media (max-width: 768px) and (orientation: portrait) {
+  #text-input {
+    min-height: 120px;
+  }
+}
   /* iOS-specific fixes */
 @supports (-webkit-touch-callout: none) {
   @media (max-width: 768px) {
@@ -829,7 +835,7 @@
   #account-links {
     margin-top: 0 !important;
     margin-bottom: 5px !important;
-    padding: 0 !important;
+    padding: 5px 0 0 0 !important;
   }
 }
 
@@ -901,7 +907,7 @@
     <!-- Account Links - Above Everything -->
     <div id="account-links"
       style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 13px; padding: 0; width: 100%;">
-      <span style="font-size: 15px; font-weight: 600; color: #222; letter-spacing: 0.01em;">Academic Assistant | Platinum Level</span>
+      <span style="font-size: 15px; font-weight: 600; color: #222; letter-spacing: 0.01em; padding-left: 5px;">Academic Assistant | Platinum Level</span>
       <div style="display: flex; gap: 16px; align-items: center;">
         <span id="earn-income-button" style="color: #999; font-size: 14px; cursor: pointer; text-decoration: none;">
           Earn Income
