@@ -1789,17 +1789,19 @@ function getBotId() {
 
   // Memberstack integration - Get logged-in user ID
     async function getMemberstackUserId() {
-      return new Promise((resolve) => {
-        function handleMessage(event) {
-          if (event.data && event.data.type === "MS_LOGIN_STATUS") {
-            window.removeEventListener("message", handleMessage);
-            resolve(event.data.loggedIn ? { id: event.data.id, email: event.data.email } : null);
-          }
+      try {
+        const member = await window.$memberstackDom.getCurrentMember();
+        if (member && member.data && member.data.id) {
+          return {
+            id: member.data.id,
+            email: member.data.email
+          };
         }
-
-        window.addEventListener("message", handleMessage);
-        window.parent.postMessage("MS_CHECK_LOGIN", "*");
-      });
+        return null;
+      } catch (error) {
+        console.error('Error getting Memberstack user:', error);
+        return null;
+      }
     }
   let configLoaded = false;
 
